@@ -33,17 +33,23 @@
         }
       },
       {
-        "path" : "goods_list/goods_list",
-        "style" : 
-        {
-          "navigationBarTitleText" : ""
+        "path": "goods_list/goods_list",
+        "style": {
+          "navigationBarTitleText": "黑马优购"
+        }
+      },
+      {
+        "path": "search/search",
+        "style": {
+          "navigationBarTitleText": "黑马优购"
         }
       }
+
 
     ]
   }],
   "globalStyle": {
-    "navigationBarTextStyle": "black",
+    "navigationBarTextStyle": "white",
     "navigationBarTitleText": "黑马优购",
     "navigationBarBackgroundColor": "#C00000",
     "backgroundColor": "#FFFFFF",
