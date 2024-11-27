@@ -2,6 +2,7 @@
   <view class="goods-item">
     <!-- 左侧图片 -->
     <view class="goods-item-left">
+      <radio :checked="goods.goods_state" color="#c00000" v-if="showRadio" @click="radioClickHandler"></radio>
       <image :src="goods.goods_small_logo||defaultPic" class="goods-pic"></image>
     </view>
     <!-- 右侧的盒子 -->
@@ -15,6 +16,7 @@
         <view class="goods-price">
           ￥{{goods.goods_price | toFixed}}
         </view>
+        <uni-number-box :min="1" :value="goods.goods_count" v-if="showNum" @change="numChangeHandler"></uni-number-box>
       </view>
     </view>
   </view>
@@ -27,6 +29,14 @@
       goods: {
         type: Object,
         default: {}
+      },
+      showRadio: {
+        type: Boolean,
+        default: false
+      },
+      showNum: {
+        type: Boolean,
+        default: false
       }
     },
     data() {
@@ -39,18 +49,43 @@
       toFixed(num) {
         return Number(num).toFixed(2)
       }
+    },
+    methods: {
+      //radio组件的点击事件处理函数
+      radioClickHandler() {
+        this.$emit('radio-change', {
+          // 商品的 Id
+          goods_id: this.goods.goods_id,
+          // 商品最新的勾选状态
+          goods_state: !this.goods.goods_state
+        })
+      },
+      // 监听到numberBox组件数量变化的事件
+      numChangeHandler(value) {
+        // console.log(value)
+        this.$emit('num-change', {
+          goods_id: this.goods.goods_id,
+          goods_count: value - 0
+        })
+      }
     }
   }
 </script>
 
 <style lang="scss">
   .goods-item {
+    width: 750rpx;
+    box-sizing: border-box;
     display: flex;
     padding: 10px 5px;
     border-bottom: 1px solid #f0f0f0;
 
     .goods-item-left {
       margin-right: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
 
       .goods-pic {
         width: 100px;
@@ -61,11 +96,18 @@
 
     .goods-item-right {
       display: flex;
+      flex: 1;
       flex-direction: column;
       justify-content: space-between;
 
       .goods-name {
         font-size: 13px;
+      }
+
+      .goods-info-box {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
       }
 
       .goods-price {
